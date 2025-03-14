@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@layer base{
+    @font-face {
+        font-family: 'cirucular-web';
+        src: url('/public/fonts/circularweb-book.woff2') format('woff2');
+    }
+    
+}
