@@ -1,16 +1,20 @@
-import { useRef } from "react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "./Button";
 import { TiLocationArrow } from "react-icons/ti";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+
+// for making a scroll trigger effet we have to import it at the top and also initialze it at the top of our component
+import { ScrollTrigger } from "gsap/all";
+gsap.registerPlugin(ScrollTrigger);
+
 export const Hero = () => {
     const [currentIndex, setCurrentIndex] = useState(1);
     const [hasClicked, setHasClicked] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [loadedVideos, setLoadedVideos] = useState(0);
 
-    const totalVideos = 3; // presents total number of video avaliable
+    const totalVideos = 4; // presents total number of video avaliable
     const nextVideoRef = useRef(null);
 
     // now that we are getting next video using the handelMiniVideoClick() but when the last video comes our index number keeps on increasing. So when we react our last index we want our index should loop and react back to 1 index
@@ -30,15 +34,22 @@ export const Hero = () => {
         setLoadedVideos(previousLoadedVideo => previousLoadedVideo + 1)
     }
 
+    // when our video loads then we want to show loading animation
+    useEffect(() => {
+        if (loadedVideos === totalVideos - 1) {
+            setIsLoading(false);
+        }
+    }, [loadedVideos])
+
     // for animations realetd to video on the click
     useGSAP(() => {
-        if(hasClicked) {
-            gsap.set('#next-video',{visibility:'visible'});
+        if (hasClicked) {
+            gsap.set('#next-video', { visibility: 'visible' });
             gsap.to('#next-video', {
                 transformOrigin: 'center center',
                 scale: 1,
                 width: '100%',
-                height : '100%',
+                height: '100%',
                 duration: 1,
                 ease: 'power1.inOut',
                 onStart: () => nextVideoRef.current.play(),
@@ -51,10 +62,43 @@ export const Hero = () => {
                 ease: 'power1.inOut'
             })
         }
-    },{dependencies: [currentIndex], revertOnUpdate: true});
+    }, { dependencies: [currentIndex], revertOnUpdate: true });
+
+    // for making the video playing screen reactangle on the scroll
+    useGSAP(() => {
+        gsap.set('#video-frame', {
+            clipPath: 'polygon(8% 10%, 78% 3%, 83% 85%, 3% 96%)',
+            borderRadius: '0 0 40% 10%',
+        })
+        gsap.from('#video-frame', {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            borderRadius: '0 0 0 0',
+            ease: 'power1.inOut',
+            scrollTrigger: {
+                trigger: '#video-frame',
+                start: 'center center',
+                end: 'bottom center',
+                scrub: true,
+            }
+        })
+    })
     return (
         <div className="relative h-dvh w-screen overflow-x-hidden">
-            {/* for vedio */}
+
+            {/* this is for creating a loading three dots aniamtions */}
+            {isLoading && (
+                <div className="flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-violet-50">
+                    {/* this is for creating three dots */}
+                    <div className="three-body">
+                        {/* this makes a dot */}
+                        <div className="three-body__dot"></div>
+                        <div className="three-body__dot"></div>
+                        <div className="three-body__dot"></div>
+                    </div>
+                </div>
+            )}
+
+            {/* for vedio  as the main frame which will be converted to reactangle on the scroll*/}
             <div id="video-frame" className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-blue-75">
                 <div>
                     {/* mini video player */}
