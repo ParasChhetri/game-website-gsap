@@ -2,6 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "./Button";
 import { TiLocationArrow } from "react-icons/ti";
 
+// for navbar scroll
+import { useWindowScroll } from "react-use";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+
 // nav menu items are written here so that our code dosen't become messy
 const navItems = ['Nexus', 'Vault', 'Prolouge', 'About', 'Contact'];
 
@@ -12,6 +17,36 @@ export const Navbar = () => {
     const audioElementRef = useRef(null);
     const [isAudioPlaying, setIsAudioPlaying] = useState(true);
     const [isIndicatorActive, setIsIndicatorActive] = useState(true);
+
+    // for scroll effects on nabar 
+    const [lastScrollY, setLastScrollY] = useState(0);
+    const [isNavVisible, setIsNavVisible] = useState();
+    const {y : currentScrollY }= useWindowScroll(true);
+
+    // for scroll effects on navbar
+    useEffect(() => {
+        if(currentScrollY === 0){
+            setIsNavVisible(true);
+            navContainerRef.current.classList.remove("floating-nav");
+        }
+        else if (currentScrollY > lastScrollY) {
+            setIsNavVisible(false);
+            navContainerRef.current.classList.add("floating-nav")
+        }else if (currentScrollY < lastScrollY) {
+            setIsNavVisible(true);
+            navContainerRef.current.classList.add("floating-nav")
+        }
+        setLastScrollY(currentScrollY); // to keep the tract of scroll
+    }, [currentScrollY, lastScrollY]);
+
+    // navbar animation on scroll
+    useGSAP(() => {
+        gsap.to(navContainerRef.current, {
+          y: isNavVisible ? 0 : -100,
+          opacity: isNavVisible ? 1 : 0,
+          duration: 0.2,
+        });
+      }, [isNavVisible]);
 
     // for the music playing button 
     const toggleAudioIndicator = () => {
