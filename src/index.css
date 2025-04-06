@@ -19,6 +19,13 @@
 
   --color-yellow-100: #8e983f;
   --color-yellow-300: #edff66;
+
+  /* for story section experiment */
+  --tw-gradient-from: #1e3a8a;
+  --tw-gradient-via: #3730a3;
+  --tw-gradient-to: #000000;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to);
+
 }
 
 /*
@@ -30,6 +37,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
   *,
   ::after,
   ::before,
@@ -194,10 +202,12 @@
     height: 4px;
     transform: translateY(-0px);
   }
+
   50% {
     height: 16px;
     transform: translateY(-4px);
   }
+
   100% {
     height: 4px;
     transform: translateY(-0px);
@@ -257,8 +267,7 @@
 .three-body__dot:nth-child(2)::after {
   bottom: 0;
   left: 0;
-  animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15)
-    ease-in-out;
+  animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15) ease-in-out;
 }
 
 .three-body__dot:nth-child(3) {
@@ -284,6 +293,7 @@
 }
 
 @keyframes wobble1 {
+
   0%,
   100% {
     transform: translateY(0%) scale(1);
@@ -297,6 +307,7 @@
 }
 
 @keyframes wobble2 {
+
   0%,
   100% {
     transform: translateY(0%) scale(1);

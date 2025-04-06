@@ -15,8 +15,8 @@ export const Navbar = () => {
 
     // for the audio 
     const audioElementRef = useRef(null);
-    const [isAudioPlaying, setIsAudioPlaying] = useState(true);
-    const [isIndicatorActive, setIsIndicatorActive] = useState(true);
+    const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+    const [isIndicatorActive, setIsIndicatorActive] = useState(false);
 
     // for scroll effects on nabar 
     const [lastScrollY, setLastScrollY] = useState(0);
