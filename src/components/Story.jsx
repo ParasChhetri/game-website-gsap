@@ -65,9 +65,9 @@ export const Story = () => {
                 <div className='-mt-80 flex w-full justify-center md:-mt-64 md:me-44 md:justify-end'>
                     <div className='flex h-full w-fit flex-col items-center md:items-start'>
                         <p className='mt-3 max-w-sm text-justify font-circular-web '>Where relms coverage, lies zentary and the boundless pillar. Dicover the secrets and shape your fate with infine oppurtunities.</p>
-                        <Button 
+                        <Button
                             id="realm-button"
-                            title="discover prologue" 
+                            title="discover prologue"
                             containerClass="mt-5"
                         />
                     </div>
